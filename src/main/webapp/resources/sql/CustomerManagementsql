@@ -1,0 +1,95 @@
+-- CustmoerManagement용 DB입니다.--
+
+------------------------------------------------------
+DROP TABLE cust_master;
+DROP TABLE cust_man;
+DROP SEQUENCE man_seq;
+
+commit;
+---------------------------------------------------------
+
+
+-- cust_master 테이블 생성
+CREATE TABLE cust_master (
+    cust_no number PRIMARY KEY,
+    cust_type VARCHAR2(100),
+    cust_reg_date DATE, 
+    cust_reg_person VARCHAR2(100),
+    cust_name VARCHAR2(100),
+    cust_name_short VARCHAR2(100),
+    cust_addr VARCHAR2(100),
+    cust_homepage VARCHAR2(100),
+    cust_memo VARCHAR2(500),
+    cust_create_time DATE,
+    cust_update_time DATE
+);
+
+-- cust_man 테이블 생성
+CREATE TABLE cust_man (
+    man_cust_no NUMBER,
+    man_seq NUMBER PRIMARY KEY,
+    man_name VARCHAR2(100),
+    man_tel VARCHAR2(100),
+    man_email VARCHAR2(100),
+    man_job VARCHAR2(100),
+    CONSTRAINT cust_man_fk FOREIGN KEY(man_cust_no) REFERENCES cust_master(cust_no)
+);
+
+-- 시퀀스 생성
+CREATE SEQUENCE man_seq
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 100000
+    MINVALUE 1
+    NOCYCLE;
+        
+-- 더미데이터 삽입
+INSERT ALL    
+    INTO cust_master(cust_no, cust_type, cust_reg_date, cust_reg_person, cust_name, cust_name_short, cust_addr, cust_homepage, cust_memo, cust_create_time, cust_update_time)
+    VALUES(10,'운영','2016-01-01','김등록','국민은행','국민','서울시 강서구','www.kbbank.com','hi',to_char(sysdate, 'yyyy-mm-dd hh24:mi:ss'),'2018-01-01')
+     
+    INTO cust_master(cust_no, cust_type, cust_reg_date, cust_reg_person, cust_name, cust_name_short, cust_addr, cust_homepage, cust_memo, cust_create_time, cust_update_time)
+    VALUES(20,'운영','2016-01-01','이등록','하나은행','하나','서울시 양천구','www.hanabank.com','hi',sysdate,'2018-01-11')
+     
+    INTO cust_master(cust_no, cust_type, cust_reg_date, cust_reg_person, cust_name, cust_name_short, cust_addr, cust_homepage, cust_memo, cust_create_time, cust_update_time)
+    VALUES(30,'협력','2016-01-11','박등록','우리은행','우리','서울시 금천구','www.woribank.com','hi',sysdate,'2018-01-21')
+    
+    INTO cust_master(cust_no, cust_type, cust_reg_date, cust_reg_person, cust_name, cust_name_short, cust_addr, cust_homepage, cust_memo, cust_create_time, cust_update_time)
+    VALUES(40,'수행','2016-01-21','석등록','한국소프트웨어인재개발원','코스모','서울시 구로구','www.kosmo.com','hi',sysdate,'2018-01-21')
+   
+    INTO cust_master(cust_no, cust_type, cust_reg_date, cust_reg_person, cust_name, cust_name_short, cust_addr, cust_homepage, cust_memo, cust_create_time, cust_update_time)
+    VALUES(50,'수행','2016-01-21','석등록','일선솔루션','일선','서울시 종로구','www.ilsun.com','hi',sysdate,'2018-01-21')
+   
+   
+   
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(10, 1,'김국민/영업','010-1111-1111','kbkim@test.com','영업')
+       
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(10, 2,'나국민/회계','010-1111-1112','kbna@test.com','회계')
+
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(20, 3,'김하나/영업','010-1111-1113','hanakim@test.com','영업')
+       
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(20, 4,'나하나/회계','010-1111-1114','hanana@test.com','회계')
+      
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(30, 5,'김우리/영업','010-1111-1115','worikim@test.com','영업')
+       
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(30, 6,'나우리/회계','010-1111-1116','worina@test.com','회계')
+       
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(40, 7,'김코스/영업','010-1111-1117','koskim@test.com','영업')
+       
+    INTO cust_man(man_cust_no, man_seq, man_name, man_tel, man_email, man_job)
+    VALUES(50, 8,'김일선/영업','010-1111-1118','ilsunkim@test.com','영업')
+    
+    SELECT * FROM DUAL;
+    
+-- 고객현황 폼 전체리스트 및 조회
+select * 
+from cust_master inner join cust_man on cust_no=man_cust_no
+where cust_name = '국민은행'
+order by cust_no asc;
