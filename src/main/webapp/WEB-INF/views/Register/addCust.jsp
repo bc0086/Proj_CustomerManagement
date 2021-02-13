@@ -219,12 +219,12 @@
 		<div class="col-8" >
 			<span class="badge badge-info" style="font-size:17px; width:100px;">분류</span>
 			<select name="custType" id="custType" style="margin-left: 11px; width: 70px;">
-				<option value="all">전체</option>
-				<option value="sales">영업</option>
-				<option value="operation">운영</option>
-				<option value="cancel">해지</option>
-				<option value="perform">수행</option>
-				<option value="cooperation">협력</option>
+				<option value="전체">전체</option>
+				<option value="영업">영업</option>
+				<option value="운영">운영</option>
+				<option value="해지">해지</option>
+				<option value="수행">수행</option>
+				<option value="협력">협력</option>
 			</select>
 		</div>
 	</div><br />

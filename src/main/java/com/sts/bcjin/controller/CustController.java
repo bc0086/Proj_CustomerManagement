@@ -1,5 +1,6 @@
 package com.sts.bcjin.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +10,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sts.bcjin.dao.CustDao;
 import com.sts.bcjin.service.CustService;
 
 // @Controller 어노테이션을 사용함으로 id가 custController인 빈이 자동 생성됨
@@ -78,10 +81,11 @@ public class CustController {
 	}
 	
 	// 고객등록 폼 -> 입력
+	
 	@RequestMapping(value="insertCust.do", method = RequestMethod.GET)
 	public String insertCust(@RequestParam Map<String, Object> insertMap) {
-		int insertCust = 0;
-		insertCust = custService.getInsertCust(insertMap);
-		return "Status/addCust";
+		custService.getInsertCust(insertMap);
+		return "redirect:addCust.do";
 	}
+	
 }

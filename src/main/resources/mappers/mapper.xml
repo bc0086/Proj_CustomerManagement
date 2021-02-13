@@ -91,10 +91,53 @@
 		ORDER BY cust_no DESC
 	</select>
 	
-	<!-- 고객등록 폼 -> 입력(트랜잭션 필요) -->
-	<!-- insert>
+	<!-- 고객등록 폼 -> 입력(고객) -->
+	<insert id="getInsertMaster">
+		INSERT INTO cust_master(
+			cust_no, 
+			cust_type, 
+			cust_reg_date, 
+			cust_reg_person, 
+			cust_name, 
+			cust_name_short, 
+			cust_addr, 
+			cust_homepage, 
+			cust_memo, 
+			cust_create_time
+			)
+    	VALUES(
+    		#{custNo },
+    		#{custType }, 
+			#{custRegDate }, 
+			#{custRegPerson }, 
+			#{custName }, 
+			#{custNameShort }, 
+			#{custAddr }, 
+			#{custHomepage }, 
+			#{custMemo }, 
+			sysdate
+    		)
+	</insert> 
 	
-	</insert> -->
+	<!-- 고객등록 폼 -> 입력(사원) -->
+	<insert id="getInsertMan">
+		INSERT INTO cust_man(
+			man_cust_no, 
+			man_seq, 
+			man_name, 
+			man_tel, 
+			man_email, 
+			man_job
+			)
+    	VALUES(
+    		#{custNo },
+    		man_seq.nextval,
+    		#{manName },
+    		#{manTel },
+    		#{manEmail },
+    		#{manJob }
+    		)
+	</insert>
 	
 
 </mapper> 

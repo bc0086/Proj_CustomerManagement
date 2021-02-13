@@ -41,10 +41,15 @@ public class CustDaoImpl implements CustDao{
 		return sqlSession.selectOne("mapper.getNextCustNo");
 	}
 
-	// 고객등록 폼 -> 입력
+	// 고객등록 폼 -> 입력1(고객)
 	@Override
-	public int getInsertCust(Map<String, Object> insertMap) {
-		return sqlSession.insert("mapper.getInsertCust", insertMap);
+	public void getInsertMaster(Map<String, Object> insertMap) {
+		sqlSession.insert("mapper.getInsertMaster", insertMap);
+	}
+	// 고객등록 폼 -> 입력2(고객 소속사원)
+	@Override
+	public void getInsertMan(Map<String, Object> insertMap) {
+		sqlSession.insert("mapper.getInsertMan", insertMap);
 	}
 
 	

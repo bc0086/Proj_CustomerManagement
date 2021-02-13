@@ -19,5 +19,5 @@ public interface CustService {
 	Integer getNextCustNo();
 
 	// 고객등록 폼 -> 입력
-	int getInsertCust(Map<String, Object> insertMap);
+	void getInsertCust(Map<String, Object> insertMap);
 }
