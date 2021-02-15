@@ -52,5 +52,4 @@ public class CustDaoImpl implements CustDao{
 		sqlSession.insert("mapper.getInsertMan", insertMap);
 	}
 
-	
 }

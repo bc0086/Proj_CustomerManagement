@@ -122,14 +122,18 @@
 		// 행 추가/삭제 관련
 		//////////////////////////////////////////////////////////////////////////
 		
-		// 키 값 row로 테이블의 기본 row값의 html태그 저장
-		var row = $("table tbody").html(); 
-		$("#detailTable").data("row", row); 
+		// 행 추가 사전작업 : addCust에서와는 달리 데이터가 입력된 상태이기 때문에 .html 사용 불가
+		var rowItem = "<tr>"
+		rowItem += "<td><input type='text' name='manName' id='manName' /></td>"
+		rowItem += "<td><input type='tel' name='manTel' id='manTel' /></td>"
+		rowItem += "<td><input type='email' name='manEmail' id='manEmail' /></td>"
+		rowItem += "<td><input type='text' name='manJob' id='manJob' /></td>"
+		rowItem += "<td><input type='checkbox' name='selChk' id='selChk'/></td>"
+		rowItem += "</tr>"
 		
 		// 행 추가 버튼
 		$("#addRow").click(function(){
-			$("table tbody").append($("#detailTable").data("row"));
-				// row의 키 값으로 저장된 Html값 호출하여 테이블에 추가함
+			$('#detailTable').append(rowItem);
 		});
 		
 		// 행 삭제 버튼

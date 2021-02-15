@@ -1,6 +1,5 @@
 package com.sts.bcjin.controller;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +9,21 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sts.bcjin.dao.CustDao;
 import com.sts.bcjin.service.CustService;
+
+import net.sf.json.JSONArray;
+
+
 
 // @Controller 어노테이션을 사용함으로 id가 custController인 빈이 자동 생성됨
 @Controller("custController") 
+//@RestController 
 public class CustController {
 	
 	@Resource(name="service")
@@ -81,11 +84,17 @@ public class CustController {
 	}
 	
 	// 고객등록 폼 -> 입력
-	
-	@RequestMapping(value="insertCust.do", method = RequestMethod.GET)
-	public String insertCust(@RequestParam Map<String, Object> insertMap) {
-		custService.getInsertCust(insertMap);
+	@GetMapping("insertCust.do")
+	@ResponseBody // return값을 JSON형태로 전달한다
+	public Object insertCust(@RequestParam String allFrm) {
+		
+		// 직렬화 시켜 가져온 오브젝트 배열을 JSONArray형식으로 바꿔준다.
+		JSONArray array = JSONArray.fromObject(allFrm);
+		System.out.println("jsonData>>" + allFrm);
+		//System.out.println("insertMap>>" + insertMap);
+		
 		return "redirect:addCust.do";
 	}
+	
 	
 }

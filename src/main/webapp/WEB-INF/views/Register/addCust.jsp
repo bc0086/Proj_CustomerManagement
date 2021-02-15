@@ -21,10 +21,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/marioizquierdo-jquery.serializeJSON-62c1f45/jquery.serializejson.js"></script>
+
 <script>
 	$(function(){
 		// 입력 버튼
-		$("#insertBtn").click(function(){
+		$("#insertBtn").on("click", function(){
 			// 유효성 검사
 			if(confirm("입력을 하시겠습니까?")) {
 				var msg = "(필수항목 : 담당자, 고객명, 이름/소속, 전화번호)";
@@ -48,8 +50,41 @@
 					$("#manTel").focus();
 					return false;
 				}
-				else {
-					$("#allFrm").attr("action","insertCust.do").attr("method","get").submit();
+				else { // 동적생성된 행 때문에 수동으로 배열을 만들어야 한다.
+					var allFrm = $("#allFrm").serializeJSON(); // 한 줄만 생성됨
+					var param = []; // 배열 생성					
+					
+					$("#detailTbody tr").each(function(index, item) { // 행만큼 반복수행
+						var data = {}; // Objext 생성
+						
+						data.manName = $(this).find("input").eq(0).val();
+						data.manTel = $(this).find("input").eq(1).val();
+						data.manEmail = $(this).find("input").eq(2).val();
+						data.manJob = $(this).find("input").eq(3).val();
+						data.selChk = $(this).find("input").eq(4).val();
+						param.push(data);
+					});
+					allFrm.param = param;
+					//console.log("insertCust", allFrm); // 일단 콘솔에서 확인
+					//var jsonData = JSON.stringify(param);
+					console.log("insertCust", allFrm);
+					jQuery.ajaxSettings.traditional = true;
+					
+					$.ajax({
+						type:"get",
+						url:"insertCust.do",
+						data:{"allFrm":allFrm}, // {} jsonObject type
+						dataType:"json",
+						contentType:"application/json; charset=utf-8",
+						success:function(data){
+							console.log("insertCust-callback",data);
+						},
+						error:function(request, status, error) {
+							console.log(request, status, error);
+						}
+					});
+					
+					
 					
 					
 					var cNo = document.getElementById("custNo").value;
@@ -57,19 +92,14 @@
 					cNo = parseInt(cNo) + 1;
 					document.getElementById("custNo").value = cNo;
 					alert("입력이 완료되었습니다.");
-					
-					
-					
-					
-					
+				
 				}
 			} // /유효성 검사 
 			else {
 				alert("취소를 선택하셨습니다.");
 			}
-		});
-		
-		
+		})
+	
 		
 		
 		// 조회 버튼
@@ -130,7 +160,7 @@
 		// 행 추가/삭제 관련
 		//////////////////////////////////////////////////////////////////////////
 		
-		// 키 값 row로 테이블의 기본 row값의 html태그 저장
+		// 행 추가 사전작업 : 키 값 row로 테이블의 기본 row값의 html태그 저장
 		var row = $("table tbody").html(); 
 		$("#detailTable").data("row", row); 
 		
@@ -280,8 +310,9 @@
 					</tr>
 				</thead>
 				
-				<tbody>
-					<tr >
+				<tbody id="detailTbody" name="detailTbody">
+				
+					<tr id="detailTr" name="detailTr">
 						<td><input type="text" name="manName" id="manName" /></td>
 						<td><input type="tel" name="manTel" id="manTel" /></td>
 						<td><input type="email" name="manEmail" id="manEmail" /></td>
