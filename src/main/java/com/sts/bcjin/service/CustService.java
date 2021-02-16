@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sts.bcjin.vo.CustVo;
+
 public interface CustService {
 	
 	// 고객현황 폼
@@ -19,5 +21,6 @@ public interface CustService {
 	Integer getNextCustNo();
 
 	// 고객등록 폼 -> 입력
-	void getInsertCust(Map<String, Object> insertMap);
+	Integer insertCustByVO(CustVo vo);
+
 }

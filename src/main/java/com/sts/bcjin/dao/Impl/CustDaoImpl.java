@@ -1,5 +1,6 @@
 package com.sts.bcjin.dao.Impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,8 +8,10 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sts.bcjin.dao.CustDao;
+import com.sts.bcjin.vo.CustVo;
 
 @Repository("dao")
 public class CustDaoImpl implements CustDao{
@@ -40,16 +43,20 @@ public class CustDaoImpl implements CustDao{
 	public Integer getNextCustNo() {
 		return sqlSession.selectOne("mapper.getNextCustNo");
 	}
-
-	// 고객등록 폼 -> 입력1(고객)
+	
+	// 고객등록 폼 -> 입력
 	@Override
-	public void getInsertMaster(Map<String, Object> insertMap) {
-		sqlSession.insert("mapper.getInsertMaster", insertMap);
+	@Transactional
+	public int insertCustByVO(CustVo vo) {
+		int result = 0;
+		try {
+			result = sqlSession.insert("mapper.getInsertMaster",vo);
+			if(result == 1) { // 위의 쿼리가 성공하면 1(=1행)반환됨
+				result += sqlSession.insert("mapper.getInsertMan",vo.getInfo());				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
-	// 고객등록 폼 -> 입력2(고객 소속사원)
-	@Override
-	public void getInsertMan(Map<String, Object> insertMap) {
-		sqlSession.insert("mapper.getInsertMan", insertMap);
-	}
-
 }

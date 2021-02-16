@@ -52,28 +52,30 @@
 				}
 				else { // 동적생성된 행 때문에 수동으로 배열을 만들어야 한다.
 					var allFrm = $("#allFrm").serializeJSON(); // 한 줄만 생성됨
-					var param = []; // 배열 생성					
+					var info = []; // 배열 생성					
 					
 					$("#detailTbody tr").each(function(index, item) { // 행만큼 반복수행
-						var data = {}; // Objext 생성
+						var infoObj = {}; // Objext 생성
 						
-						data.manName = $(this).find("input").eq(0).val();
-						data.manTel = $(this).find("input").eq(1).val();
-						data.manEmail = $(this).find("input").eq(2).val();
-						data.manJob = $(this).find("input").eq(3).val();
-						data.selChk = $(this).find("input").eq(4).val();
-						param.push(data);
+						infoObj.custNo = $("#custNo").val();
+						infoObj.manName = $(this).find("input").eq(0).val();
+						infoObj.manTel = $(this).find("input").eq(1).val();
+						infoObj.manEmail = $(this).find("input").eq(2).val();
+						infoObj.manJob = $(this).find("input").eq(3).val();
+						infoObj.selChk = $(this).find("input").eq(4).val();
+						info.push(infoObj);
 					});
-					allFrm.param = param;
-					//console.log("insertCust", allFrm); // 일단 콘솔에서 확인
-					//var jsonData = JSON.stringify(param);
-					console.log("insertCust", allFrm);
-					jQuery.ajaxSettings.traditional = true;
+					allFrm.info = info;
+					console.log("insertCust", allFrm); // 일단 콘솔에서 확인
+					//var infoJson = JSON.stringify(info);
+					//allFrm.infoJson = infoJson;
+					//console.log("insertCust", infoJson);
+					//jQuery.ajaxSettings.traditional = true;
 					
 					$.ajax({
 						type:"get",
 						url:"insertCust.do",
-						data:{"allFrm":allFrm}, // {} jsonObject type
+						data: allFrm, // {} jsonObject type
 						dataType:"json",
 						contentType:"application/json; charset=utf-8",
 						success:function(data){
@@ -83,6 +85,10 @@
 							console.log(request, status, error);
 						}
 					});
+					
+					
+					
+				
 					
 					
 					

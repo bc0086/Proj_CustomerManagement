@@ -120,24 +120,30 @@
 	</insert> 
 	
 	<!-- 고객등록 폼 -> 입력(사원) -->
-	<insert id="getInsertMan">
-		INSERT INTO cust_man(
-			man_cust_no, 
-			man_seq, 
-			man_name, 
-			man_tel, 
-			man_email, 
-			man_job
+		<!-- BEGIN-END; 의 PL/SQL을 사용하여 루프를 돈다. -->
+	<insert id="getInsertMan" parameterType="java.util.HashMap">
+	BEGIN
+		<foreach collection="list" item="item" >
+			INSERT INTO cust_man
+			(
+				man_seq, 
+				man_cust_no, 
+				man_name, 
+				man_tel, 
+				man_email, 
+				man_job
 			)
-    	VALUES(
-    		#{custNo },
-    		man_seq.nextval,
-    		#{manName },
-    		#{manTel },
-    		#{manEmail },
-    		#{manJob }
-    		)
+			VALUES 
+			(
+				man_seq.NEXTVAL,
+				#{item.custNo } ,
+	    		#{item.manName } ,
+	    		#{item.manTel },
+	    		#{item.manEmail },
+	    		#{item.manJob }
+			);
+		</foreach>	
+		END;
 	</insert>
-	
 
 </mapper> 

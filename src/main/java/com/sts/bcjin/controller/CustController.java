@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sts.bcjin.service.CustService;
-
-import net.sf.json.JSONArray;
+import com.sts.bcjin.vo.CustVo;
 
 
 
@@ -65,7 +65,7 @@ public class CustController {
 	}
 	
 	// 고객등록 폼 -> 조회
-	@RequestMapping("findCust.do")
+	@RequestMapping(value ="findCust.do")
 	public String findCust(@RequestParam Map<String, Object> findMap, Model model) {
 		HashMap<String, Object> reFindMap = new HashMap<String, Object>();
 		List<Map<String, Object>> findCust = new ArrayList<Map<String,Object>>();
@@ -84,16 +84,33 @@ public class CustController {
 	}
 	
 	// 고객등록 폼 -> 입력
-	@GetMapping("insertCust.do")
+	@GetMapping("insertCust.do") // @requestMapping + @method get
 	@ResponseBody // return값을 JSON형태로 전달한다
-	public Object insertCust(@RequestParam String allFrm) {
+	public ModelAndView insertCust(CustVo vo) {
+//		// JSON배열 확인
+//		System.out.println("vo>>"+vo.toString());
+//		System.out.println("info>>"+vo.getInfo().toString());
+
+		custService.insertCustByVO(vo);
 		
-		// 직렬화 시켜 가져온 오브젝트 배열을 JSONArray형식으로 바꿔준다.
-		JSONArray array = JSONArray.fromObject(allFrm);
-		System.out.println("jsonData>>" + allFrm);
-		//System.out.println("insertMap>>" + insertMap);
-		
-		return "redirect:addCust.do";
+//		// 사원정보 확인
+//		ArrayList<HashMap<String, Object>> info = vo.getInfo();
+//		System.out.println("info>>"+info);
+//		
+//		// 회사정보 확인
+//		HashMap<String, Object> custMap = new HashMap<String, Object>();
+//		custMap.put("custNo", vo.getCustNo());
+//		custMap.put("custType", vo.getCustType());
+//		custMap.put("custRegDate", vo.getCustRegDate());
+//		custMap.put("custRegPerson", vo.getCustRegPerson());
+//		custMap.put("custName", vo.getCustName());
+//		custMap.put("custNameShort", vo.getCustNameShort());
+//		custMap.put("custAddr", vo.getCustAddr());
+//		custMap.put("custHomepage", vo.getCustHomepage());
+//		custMap.put("custMemo", vo.getCustMemo());
+//		System.out.println("cust>>"+custMap);
+
+		return null;
 	}
 	
 	

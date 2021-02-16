@@ -1,6 +1,7 @@
 package com.sts.bcjin.service.Impl;
 
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +9,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.sts.bcjin.dao.CustDao;
 import com.sts.bcjin.service.CustService;
+import com.sts.bcjin.vo.CustVo;
 
 @Service("service")
 public class CustServiceImpl implements CustService {
@@ -49,16 +48,7 @@ public class CustServiceImpl implements CustService {
 
 	// 고객등록 폼 -> 입력
 	@Override
-	public void getInsertCust(Map<String, Object> insertMap) {
-		try {
-			custDao.getInsertMaster(insertMap);
-			custDao.getInsertMan(insertMap);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
+	public Integer insertCustByVO(CustVo vo) {
+		return custDao.insertCustByVO(vo);
 	}
-
-	
 }
