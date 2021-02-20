@@ -27,7 +27,6 @@
 	$(function(){
 		// 입력 버튼
 		$("#insertBtn").on("click", function(){
-			// 유효성 검사
 			if(confirm("입력을 하시겠습니까?")) {
 				var msg = "(필수항목 : 담당자, 고객명, 이름/소속, 전화번호)";
 				
@@ -55,7 +54,7 @@
 					var info = []; // 배열 생성					
 					
 					$("#detailTbody tr").each(function(index, item) { // 행만큼 반복수행
-						var infoObj = {}; // Objext 생성
+						var infoObj = {}; // Object 생성
 						
 						infoObj.custNo = $("#custNo").val();
 						infoObj.manName = $(this).find("input").eq(0).val();
@@ -67,11 +66,8 @@
 					});
 					allFrm.info = info;
 					console.log("insertCust", allFrm); // 일단 콘솔에서 확인
-					//var infoJson = JSON.stringify(info);
-					//allFrm.infoJson = infoJson;
-					//console.log("insertCust", infoJson);
-					//jQuery.ajaxSettings.traditional = true;
 					
+					// ajax로 비동기 처리하기
 					$.ajax({
 						type:"get",
 						url:"insertCust.do",
@@ -86,72 +82,30 @@
 						}
 					});
 					
+					alert("입력 성공");
 					
+					// 입력완료 후 -> 페이지 이동하기
+					location.href="addCust.do";
 					
-				
-					
-					
-					
-					
+					// 입력완료 후 -> 고객번호 증가시키기
 					var cNo = document.getElementById("custNo").value;
-					
 					cNo = parseInt(cNo) + 1;
 					document.getElementById("custNo").value = cNo;
-					alert("입력이 완료되었습니다.");
-				
+					
+					/////////////////////////////////////////////////////////////
+					// 성공확인 메세지 -> ajax쓰면 안먹힌다. 정확히는 필요가 없다.
+					if(getParameterByName("result")>0) {
+						console.log("result :", getParameterByName("result"));
+						alert("입력이 완료되었습니다.");
+					};
+					/////////////////////////////////////////////////////////////
 				}
-			} // /유효성 검사 
+			}
 			else {
 				alert("취소를 선택하셨습니다.");
 			}
 		})
-	
 		
-		
-		// 조회 버튼
-		$("#findBtn").click(function(){
-			if($("#custName").val()=='' && $("#custNameShort").val()=='') {
-				alert("조회하실 고객명 또는 약명을 입력하세요.");
-				$("#custName").focus();
-				return false;
-			}
-			else {
-				alert("조회 완료");
-				$("#allFrm").attr("action","findCust.do").attr("method","get").submit();	
-			}
-		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// 수정 버튼
-		
-		// 삭제 버튼
-		$("#deleteBtn").click(function(){
-			if(confirm("주의 : 삭제를 하시겠습니까?")) {
-				var cNo = document.getElementById("custNo").value;
-				
-				if(cNo ==1) {
-					alert("삭제 할 내용이 없습니다.");
-					return;
-				} 
-				else {
-					cNo = parseInt(cNo) - 1;
-					document.getElementById("custNo").value = cNo;
-					alert("삭제가 완료되었습니다.");
-				}
-			} else {
-				alert("취소를 선택하셨습니다.");
-			}
-		});
 		
 		// 초기화 버튼
 		$("#resetBtn").click(function(){
@@ -195,7 +149,8 @@
 			
 			if (confirm("선택한 행을 삭제하시겠습니까?")){
 				for(var i=0; i<chkCnt; i++) {
-					chkBox.eq(i).parent().parent().remove();
+					//chkBox.eq(i).parent().parent().remove();//.cloest("부모엘리먼트선택자")
+					chkBox.eq(i).closet().remove();
 						// eq() : 선택한 요소 중에서 전달받은 인덱스에 해당하는 요소를 선택
 				}
 				alert("삭제되었습니다.");
@@ -205,12 +160,17 @@
 				return false;
 			}
 		})
-		//////////////////////////////////////////////////////////////////////////
-		// /행 추가/삭제 관련													
-		//////////////////////////////////////////////////////////////////////////
-	
-		
 	});	
+	
+	
+	// 파라미터값 리턴
+	function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	            results = regex.exec(location.search);
+	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	
 	
 	// 체크박스 전체선택/해제
 	function selAllChk() {
@@ -221,7 +181,6 @@
 			$("input[name=selChk]").prop("checked", false);
 		}
 	}
-	
 </script>
 </head>
 <body>
@@ -229,11 +188,8 @@
 <div class="container-sm">
 	<div class="row">
 		<div class="col-4" style="text-align: left">
-			<input type="button" value="조회" name="findBtn" id="findBtn"/>
-			<input type="button" value="수정" />
-			<input type="button" value="삭제" name="deleteBtn" id="deleteBtn"/>
-			<input type="button" value="입력" name="insertBtn" id="insertBtn"/>
-			<input type="button" value="초기화" name="resetBtn" id="resetBtn"/>
+			<input type="button" value="입력" name="insertBtn" id="insertBtn" class="btn btn-warning btn-sm"/>
+			<input type="button" value="초기화" name="resetBtn" id="resetBtn" class="btn btn-warning btn-sm"/>
 		</div>
 		
 		<div class="col-4"style="text-align: center">
@@ -241,10 +197,10 @@
 		</div>
 		
 		<div class="col-4" style="text-align: right">
-			<input type="button" value="현황" onclick="location.href='listCust.do'"/>
+			<input type="button" value="고객현황" onclick="location.href='listCust.do'" class="btn btn-default btn-sm"/>/
+			<input type="button" value="고객조회" onclick="location.href='infoCust.do'" class="btn btn-default btn-sm"/>
 		</div>
 	</div><br /><br />
-	
 
 	<div class="row justify-content-around">
 		<div class="col-4">
@@ -294,7 +250,7 @@
 	
 	<div>
 		<span class="badge badge-info" style="font-size:17px; width:100px; margin-top: 10px;">홈페이지</span>
-		<input type="email" name="custHomepage" id="custHomepage" style="margin-left:11px; width:550px;" />
+		<input type="text" name="custHomepage" id="custHomepage" style="margin-left:11px; width:550px;" />
 	</div><br />
 	
 	<div class="row">
@@ -320,8 +276,8 @@
 				
 					<tr id="detailTr" name="detailTr">
 						<td><input type="text" name="manName" id="manName" /></td>
-						<td><input type="tel" name="manTel" id="manTel" /></td>
-						<td><input type="email" name="manEmail" id="manEmail" /></td>
+						<td><input type="text" name="manTel" id="manTel" /></td>
+						<td><input type="text" name="manEmail" id="manEmail" /></td>
 						<td><input type="text" name="manJob" id="manJob" /></td>
 						<td>
 							<input type="checkbox" name="selChk" id="selChk"/>
@@ -336,7 +292,6 @@
 			<input type="button" value="1행 삭제" name="delRow" id="delRow" class="btn btn-danger btn-sm" style="width: 100px; margin-top: 5px;"/>
 			<input type="button" value="1행 삽입" name="addRow" id="addRow" class="btn btn-success btn-sm" style="width: 100px; margin-top: 5px;"/>
 		</div>
-		
 	</div>
 	
 	<div class="row">

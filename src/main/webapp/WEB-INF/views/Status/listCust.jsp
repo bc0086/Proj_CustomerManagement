@@ -47,7 +47,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col" style="text-align: left">
-			<input type="button" name="searchBtn" id="searchBtn" value="조회" />
+			<input type="button" name="searchBtn" id="searchBtn" value="조회" class="btn btn-warning btn-sm"/>
 		</div>
 		
 		<div class="col-6"style="text-align: center">
@@ -55,7 +55,8 @@
 		</div>
 		
 		<div class="col" style="text-align: right">
-			<input type="button" value="등록" onclick="location.href='addCust.do'"/>
+			<input type="button" value="고객등록" onclick="location.href='addCust.do'" class="btn btn-default btn-sm"/>/
+			<input type="button" value="고객조회" onclick="location.href='infoCust.do'" class="btn btn-default btn-sm"/>
 		</div>
 	</div><br /><br />
 

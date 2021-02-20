@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustVo {
-	int custNo;
+	String custNo;
 	String custType;
 	String custRegDate;
 	String custRegPerson;
@@ -16,7 +16,7 @@ public class CustVo {
 	String custCreateTime;
 	String custUpdateTime;
 	
-	int manCustNo;
+	String manCustNo;
 	int manSeq;
 	String manName;
 	String manTel;
@@ -24,12 +24,12 @@ public class CustVo {
 	String manJob;
 	
 	ArrayList<HashMap<String, Object>> info;
-//	ArrayList<DTO> info
-	public int getCustNo() {
+
+	public String getCustNo() {
 		return custNo;
 	}
 
-	public void setCustNo(int custNo) {
+	public void setCustNo(String custNo) {
 		this.custNo = custNo;
 	}
 
@@ -113,11 +113,11 @@ public class CustVo {
 		this.custUpdateTime = custUpdateTime;
 	}
 
-	public int getManCustNo() {
+	public String getManCustNo() {
 		return manCustNo;
 	}
 
-	public void setManCustNo(int manCustNo) {
+	public void setManCustNo(String manCustNo) {
 		this.manCustNo = manCustNo;
 	}
 

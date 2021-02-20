@@ -61,38 +61,16 @@
 		ORDER BY cust_no ASC
 	</select>
 	
-	<!-- 고객등록 폼 -> 조회 -->
-	<select id="getFindCust" resultMap="mapCust" parameterType="map">
-		SELECT
-			cust_no,
-			cust_type,
-			cust_reg_date,
-			cust_reg_person,
-			cust_name,
-			cust_name_short,
-			cust_addr,
-			cust_homepage,
-			man_name,
-			man_tel,
-			man_email,
-			man_job,
-			cust_memo,
-			cust_create_time, 
-			cust_update_time
-		FROM cust_master inner join cust_man on cust_no = man_cust_no
-		WHERE cust_name = #{custName} or cust_name_short=#{custNameShort }
-	</select>
-	
 	<!-- 고객등록 폼 : 고객번호 가져오기 -->
 	<select id="getNextCustNo" resultType="integer">
-		SELECT cust_no
+		SELECT NVL(max(cust_no), 0)
 		FROM cust_master
 		WHERE ROWNUM =1
 		ORDER BY cust_no DESC
 	</select>
 	
 	<!-- 고객등록 폼 -> 입력(고객) -->
-	<insert id="getInsertMaster">
+	<insert id="callInsertMaster">
 		INSERT INTO cust_master(
 			cust_no, 
 			cust_type, 
@@ -120,8 +98,9 @@
 	</insert> 
 	
 	<!-- 고객등록 폼 -> 입력(사원) -->
+	<!-- 고객조회 폼 -> 조회 -> 수정 2단계 : 입력(사원) -->
 		<!-- BEGIN-END; 의 PL/SQL을 사용하여 루프를 돈다. -->
-	<insert id="getInsertMan" parameterType="java.util.HashMap">
+	<insert id="callInsertMan" parameterType="java.util.HashMap">
 	BEGIN
 		<foreach collection="list" item="item" >
 			INSERT INTO cust_man
@@ -145,5 +124,58 @@
 		</foreach>	
 		END;
 	</insert>
-
+	
+	<!-- 고객조회 폼 -> 조회 -->
+	<select id="getFindCust" resultMap="mapCust" parameterType="map">
+		SELECT
+			cust_no,
+			cust_type,
+			cust_reg_date,
+			cust_reg_person,
+			cust_name,
+			cust_name_short,
+			cust_addr,
+			cust_homepage,
+			man_name,
+			man_tel,
+			man_email,
+			man_job,
+			cust_memo,
+			cust_create_time, 
+			cust_update_time
+		FROM cust_master inner join cust_man on cust_no = man_cust_no
+		WHERE cust_no = #{custNo} or cust_name = #{custName} or cust_name_short=#{custNameShort }
+	</select>
+	
+	<!-- 고객조회 폼 -> 조회 -> 수정 1단계 : 삭제(사원) -->
+	<!-- 고객조회 폼 -> 수정 -> 삭제 1단계 : 사원-->
+	<delete id="callDeleteMan" >
+		DELETE
+		FROM cust_man
+		WHERE man_cust_no = #{custNo}
+	</delete>
+		
+	<!-- 고객조회 폼 -> 조회 -> 수정 -->
+	<update id="callUpdateMaster" parameterType="integer">
+		UPDATE cust_master
+		SET
+			cust_type = #{custType }, 
+			cust_reg_date = #{custRegDate }, 
+			cust_reg_person = #{custRegPerson }, 
+			cust_name = #{custName }, 
+			cust_name_short = #{custNameShort }, 
+			cust_addr = #{custAddr }, 
+			cust_homepage = #{custHomepage }, 
+			cust_memo = #{custMemo }, 
+			cust_update_time = sysdate
+		WHERE cust_no = #{custNo}
+	</update>
+	
+	<!-- 고객조회 폼 -> 수정 -> 삭제2단계 : 고객 -->
+	<delete id="callDeleteCust">
+		DELETE 
+		FROM cust_master
+		WHERE cust_no = #{custNo}
+	</delete>
+	
 </mapper> 
