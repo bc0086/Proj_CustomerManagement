@@ -27,6 +27,7 @@
 	$(function(){
 		// 입력 버튼
 		$("#insertBtn").on("click", function(){
+			// 유효성 검사
 			if(confirm("입력을 하시겠습니까?")) {
 				var msg = "(필수항목 : 담당자, 고객명, 이름/소속, 전화번호)";
 				
@@ -93,14 +94,14 @@
 					document.getElementById("custNo").value = cNo;
 					
 					/////////////////////////////////////////////////////////////
-					// 성공확인 메세지 -> ajax쓰면 안먹힌다. 정확히는 필요가 없다.
+					// 성공확인 메세지 -> ajax쓰면 안먹힌다.
 					if(getParameterByName("result")>0) {
 						console.log("result :", getParameterByName("result"));
 						alert("입력이 완료되었습니다.");
 					};
 					/////////////////////////////////////////////////////////////
 				}
-			}
+			} // /유효성 검사 
 			else {
 				alert("취소를 선택하셨습니다.");
 			}
@@ -160,17 +161,18 @@
 				return false;
 			}
 		})
+		//////////////////////////////////////////////////////////////////////////
+		// /행 추가/삭제 관련													
+		//////////////////////////////////////////////////////////////////////////
 	});	
 	
-	
 	// 파라미터값 리턴
-	function getParameterByName(name) {
-	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	            results = regex.exec(location.search);
-	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-	
+		function getParameterByName(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		            results = regex.exec(location.search);
+		    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
 	
 	// 체크박스 전체선택/해제
 	function selAllChk() {
@@ -181,6 +183,7 @@
 			$("input[name=selChk]").prop("checked", false);
 		}
 	}
+	
 </script>
 </head>
 <body>
@@ -188,8 +191,8 @@
 <div class="container-sm">
 	<div class="row">
 		<div class="col-4" style="text-align: left">
-			<input type="button" value="입력" name="insertBtn" id="insertBtn" class="btn btn-warning btn-sm"/>
-			<input type="button" value="초기화" name="resetBtn" id="resetBtn" class="btn btn-warning btn-sm"/>
+			<input type="button" value="입력" name="insertBtn" id="insertBtn"/>
+			<input type="button" value="초기화" name="resetBtn" id="resetBtn"/>
 		</div>
 		
 		<div class="col-4"style="text-align: center">
@@ -197,10 +200,11 @@
 		</div>
 		
 		<div class="col-4" style="text-align: right">
-			<input type="button" value="고객현황" onclick="location.href='listCust.do'" class="btn btn-default btn-sm"/>/
-			<input type="button" value="고객조회" onclick="location.href='infoCust.do'" class="btn btn-default btn-sm"/>
+			<input type="button" value="고객현황" onclick="location.href='listCust.do'"/>
+			<input type="button" value="고객조회" onclick="location.href='infoCust.do'"/>
 		</div>
 	</div><br /><br />
+	
 
 	<div class="row justify-content-around">
 		<div class="col-4">
@@ -292,6 +296,7 @@
 			<input type="button" value="1행 삭제" name="delRow" id="delRow" class="btn btn-danger btn-sm" style="width: 100px; margin-top: 5px;"/>
 			<input type="button" value="1행 삽입" name="addRow" id="addRow" class="btn btn-success btn-sm" style="width: 100px; margin-top: 5px;"/>
 		</div>
+		
 	</div>
 	
 	<div class="row">

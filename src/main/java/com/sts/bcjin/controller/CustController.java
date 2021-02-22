@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -155,7 +156,6 @@ public class CustController {
 		return "Info/infoCust";
 	}
 	
-	
 	// 고객조회 폼 -> 조회 -> 수정
 	@RequestMapping(value="updateCust.do", method=RequestMethod.GET)
 	@ResponseBody
@@ -177,4 +177,25 @@ public class CustController {
 
 		return delete;
 	}
+	
+//	vo에서 사용 Hibernate
+//	@NoArgsConstructor // 최상단, 안먹힘
+//	
+//	
+//	@DateTimeFormat(pattern="yy-mm-dd") // 먹힘
+//	@NotBlank(message="내용을 입력", group= {InsertValid.class}) // 안먹힘
+//	
+//	////////////////////////////////////////////
+//	view name을 set한 {@link ModelAndView}반환
+//	@param viewName view name
+//	@return view name을 set한 {@link ModelAndView}
+//	///////////////////////////////////////////
+//	Protected ModelAndView success(String viewName) {
+//		ModelAndView mav = getDefaultModelAndCiew();
+//		mav.setViewName(viewName);
+//		return mav;
+//	}
+//	
+//	log.debug("template ==>" + boardVo.getIndId());
+//	resultMap.put(RESULT_KEYS.DEFAULT_RESULT.key(), true);
 }

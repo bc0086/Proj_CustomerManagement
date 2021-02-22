@@ -24,8 +24,9 @@
 	<br /><br /><br /><br /><br />
 	
 	<div class="row justify-content-around">
-		<div class="col-4" style="border: 1px solid red">
+		<div class="col-4" >
 			<h3 style="text-align: center">개발환경</h3>
+			<br />
 			<h5>- OS : Win10 64bit</h5>
 			<h5>- WAS : Apache Tomcat v9.0</h5>
 			<h5>- DBMS : Oracle 11g</h5>
@@ -36,9 +37,20 @@
 			<h5>- ETC : BootStrap 4.6 / JQuery / Ajax</h5>
 		</div>
 		
-		<div class="col-4" style="border: 1px solid red">
+		<div class="col-4">
 			<h3 style="text-align: center">바로가기</h3>
-			<a href="${contextPath }/listCust.do">고객등록으로 이동합니다.</a>
+			<br />
+			<a href="${contextPath }/listCust.do">
+				<button type="button" class="btn btn-info btn-lg btn-block">고객현황으로 이동</button>
+			</a>
+			<br />
+			<a href="${contextPath }/addCust.do">
+				<button type="button" class="btn btn-warning btn-lg btn-block">고객등록으로 이동</button>
+			</a>
+			<br />
+			<a href="${contextPath }/infoCust.do">
+				<button type="button" class="btn btn-primary btn-lg btn-block">고객조회로 이동</button>
+			</a>
 		</div>
 	</div>
 	

@@ -190,9 +190,9 @@
 			
 			if (confirm("선택한 행을 삭제하시겠습니까?")){
 				for(var i=0; i<chkCnt; i++) {
-					//chkBox.eq(i).parent().parent().remove(); -> closet()이랑 같은 효과
-					chkBox.eq(i).closet().remove();
-						// eq() : 선택한 요소 중에서 전달받은 인덱스에 해당하는 요소를 선택
+					chkBox.eq(i).parent().parent().remove(); 
+					//chkBox.eq(i).closet().remove();
+					// eq() : 선택한 요소 중에서 전달받은 인덱스에 해당하는 요소를 선택
 				}
 				alert("삭제되었습니다.");
 			} 
